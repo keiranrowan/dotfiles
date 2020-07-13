@@ -1,0 +1,247 @@
+#+TITLE: EMACS CONFIG
+#+AUTHOR: Keiran Rowan
+
+Credit to
+Karl:  https://gitlab.com/karl.win/emacsos/-/blob/master/config.org#exwm
+Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
+
+* Tweaks
+
+** Linum Mode
+
+#+BEGIN_SRC emacs-lisp
+  (linum-mode 1)
+  (custom-set-variables '(linum-format " %4i |"))
+#+END_SRC
+
+** Line/Column
+    
+#+BEGIN_SRC emacs-lisp
+  (column-number-mode 1)
+  (line-number-mode 1)
+#+END_SRC
+
+** Delete Selection
+
+#+BEGIN_SRC emacs-lisp
+  (delete-selection-mode 1)
+#+END_SRC
+
+** Consolidate Backups
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist
+			`((".*" . , "~/.backup/")))
+	  (setq auto-save-file-name-transforms
+			`((".*" , "~/.backup/" t)))
+#+END_SRC
+
+** Remove Emacs UI
+
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+#+END_SRC
+
+** Subword Mode
+
+#+BEGIN_SRC emacs-lisp
+  (subword-mode)
+#+END_SRC
+
+** Tab Width 
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 4)
+#+END_SRC
+
+** Y/N
+
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-no-p)
+#+END_SRC
+
+** Movement Bindings
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-p") 'backward-paragraph)
+  (global-set-key (kbd "M-n") 'forward-paragraph)
+  (global-set-key (kbd "C-=") 'scroll-up-line)
+  (global-set-key (kbd "M-=") 'scroll-down-line)
+  (global-set-key (kbd "M-\\") 'goto-line)
+  (global-set-key (kbd "M-o") 'occur)
+  (global-set-key (kbd "C-S-o") 'open-line)
+#+END_SRC
+
+* Functions
+  
+* Packages
+
+** MAJOR MODES
+
+*** PHP Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package php-mode
+	:ensure t
+	:mode ("\\.php\\'" . php-mode)
+	:config (use-package company-php))
+#+END_SRC
+
+*** Web Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+	:ensure t
+	:mode (("\\.html\\'" . web-mode)
+		   ("\\.html.twig\\'" . web-mode)
+		   ("\\.css\\'" . web-mode))
+	:config (use-package company-web))
+#+END_SRC
+
+*** JS Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+	:ensure t
+	:mode ("\\.js\\'" . js2-mode))
+#+END_SRC
+
+*** YAML Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+	:ensure t
+	:mode (("\\.yml\\'" . yaml-mode)
+		   ("\\.yaml\\'" . yaml-mode)))
+#+END_SRC
+
+*** Org Mode
+
+#+BEGIN_SRC emacs-lisp
+(setq org-log-done t)
+(setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+#+END_SRC
+
+** Sudo Edit
+   
+#+BEGIN_SRC emacs-lisp
+  (use-package sudo-edit
+	:ensure t
+	:bind
+	("C-s-s" . sudo-edit))
+#+END_SRC
+
+** Drag Stuff
+
+#+BEGIN_SRC emacs-lisp
+  (use-package drag-stuff
+	:ensure t
+	:custom
+	drag-stuff-except-modes '(org-mode)
+	:config
+	(drag-stuff-define-keys)
+	(drag-stuff-global-mode 1))
+#+END_SRC
+
+** Change Inner
+
+#+BEGIN_SRC emacs-lisp
+  (use-package change-inner
+	:ensure t
+	:bind
+	(("C-c i" . change-inner)
+	("C-c o" . change-outer)))
+#+END_SRC
+
+** Rainbow Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+	:ensure t)
+#+END_SRC
+
+** Flycheck
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+	:ensure t
+	:hook (prog-mode . flycheck-mode))
+#+END_SRC
+
+** Company
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+	:ensure t
+	:hook (prog-mode . company-mode)
+	:bind ("C-;" . company-complete))
+#+END_SRC
+
+** Origami
+
+#+BEGIN_SRC emacs-lisp
+  (use-package origami
+	:ensure t
+	:hook (prog-mode . origami-mode)
+	:bind ("C-c t" . origami-toggle-mode))
+#+END_SRC
+
+** Rainbow Delimiters
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+	:ensure t
+	:hook (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+
+** Solaire Mode
+   
+#+BEGIN_SRC emacs-lisp
+  (use-package solaire-mode
+	:ensure t
+	:config
+	(solaire-global-mode +1)
+	(solaire-mode-swap-bg)
+	:hook ((minibuffer-setup . solaire-mode-in-minibuffer)
+		   (after-revert . turn-on-solaire-mode)))
+#+END_SRC
+
+** Doom Modeline
+
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+	:ensure t
+	:hook (after-init . doom-modeline-mode))
+#+END_SRC
+
+** Doom One Theme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+	:ensure t
+	:config
+	(load-theme 'doom-one t))
+#+END_SRC
+
+** Helm
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+	:ensure t
+	:bind (("M-x" . helm-M-x)
+		   ("C-x r b" . helm-filtered-bookmarks)
+		   ("C-x C-f" . helm-find-files)
+		   ("M-l" . helm-list-buffers))
+	:config (helm-mode 1))
+#+END_SRC
+
+** Magit
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+	:ensure t) 
+#+END_SRC
