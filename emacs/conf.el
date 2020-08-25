@@ -19,8 +19,6 @@
 
 (setq-default tab-width 4)
 
-(fset 'yes-or-no-p 'y-or-no-p)
-
 (global-set-key (kbd "M-p") 'backward-paragraph)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "C-=") 'scroll-up-line)
@@ -29,10 +27,20 @@
 (global-set-key (kbd "M-o") 'occur)
 (global-set-key (kbd "C-S-o") 'open-line)
 
+(use-package transient
+      :ensure t)
+
+(use-package phpactor
+      :ensure t)
+
+(use-package company-phpactor
+      :ensure t)
+
+(setq-default c-basic-offset 4)
+
 (use-package php-mode
       :ensure t
-      :mode ("\\.php\\'" . php-mode)
-      :config (use-package company-php))
+      :mode ("\\.php\\'" . php-mode))
 
 (use-package web-mode
       :ensure t
@@ -50,10 +58,16 @@
       :mode (("\\.yml\\'" . yaml-mode)
 		 ("\\.yaml\\'" . yaml-mode)))
 
-(setq org-log-done t)
-(setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
+(use-package org-mode
+      :bind
+      (("C-c l" . org-store-link)
+       ("C-c a" . org-agenda))
+      :config
+      ((setq org-log-done t)
+       (setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
+       (setq org-src-fontify-natively t)
+       (setq org-src-tab-acts-natively t)
+       (setq org-agenda-files (list "~/orgs/agenda/agenda.org"))))
 
 (use-package sudo-edit
       :ensure t
@@ -114,11 +128,21 @@
 
 (use-package helm
       :ensure t
-      :bind (("M-x" . helm-M-x)
+      :bind (("M-x" . helm-M-x) ; M-x Fuzzy Replacement
 		 ("C-x r b" . helm-filtered-bookmarks)
-		 ("C-x C-f" . helm-find-files)
-		 ("M-l" . helm-list-buffers))
-      :config (helm-mode 1))
+		 ("C-x C-f" . helm-find-files) ; Fuzzy Find File
+		 ("M-l" . helm-list-buffers) ; Fuzzy Buffer Search
+		 ("M-y" . helm-show-kill-ring) ; Fuzzy Undo
+		 ("C-x b" . helm-mini) ; Fuzzy Buffer & Recent
+		 ("C-c m" . helm-semantic-or-imenu) ; Fuzzy Function Search
+		 ("C-c f" . helm-find) ; Fuzzy Find File on FS
+		 ("C-s" . helm-occur) ; Fuzzy Search
+		 ("C-c h" . helm-eshell-history) ;History for Eshell
+		 )
+      :config 
+      (helm-mode 1)
+      (setq helm-buffers-fuzzy-matching t)
+      (setq helm-recentf-fuzzy-match t))
 
 (use-package magit
       :ensure t)

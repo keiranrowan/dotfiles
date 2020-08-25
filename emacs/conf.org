@@ -56,12 +56,6 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
   (setq-default tab-width 4)
 #+END_SRC
 
-** Y/N
-
-#+BEGIN_SRC emacs-lisp
-  (fset 'yes-or-no-p 'y-or-no-p)
-#+END_SRC
-
 ** Movement Bindings
 
 #+BEGIN_SRC emacs-lisp
@@ -78,15 +72,42 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
   
 * Packages
 
+** Transient
+
+#+BEGIN_SRC emacs-lisp
+  (use-package transient
+	:ensure t)
+#+END_SRC
+
+** PHPActor
+
+#+BEGIN_SRC emacs-lisp
+  (use-package phpactor
+	:ensure t)
+#+END_SRC
+
+** Company PHPActor
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-phpactor
+	:ensure t)
+#+END_SRC
+
 ** MAJOR MODES
+
+*** C Mode
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default c-basic-offset 4)
+#+END_SRC
 
 *** PHP Mode
 
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode
 	:ensure t
-	:mode ("\\.php\\'" . php-mode)
-	:config (use-package company-php))
+	:mode ("\\.php\\'" . php-mode))
+
 #+END_SRC
 
 *** Web Mode
@@ -120,10 +141,16 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 *** Org Mode
 
 #+BEGIN_SRC emacs-lisp
-(setq org-log-done t)
-(setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
+  (use-package org-mode
+	:bind
+	(("C-c l" . org-store-link)
+	 ("C-c a" . org-agenda))
+	:config
+	((setq org-log-done t)
+	 (setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
+	 (setq org-src-fontify-natively t)
+	 (setq org-src-tab-acts-natively t)
+	 (setq org-agenda-files (list "~/orgs/agenda/agenda.org"))))
 #+END_SRC
 
 ** Sudo Edit
@@ -232,11 +259,21 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 #+BEGIN_SRC emacs-lisp
   (use-package helm
 	:ensure t
-	:bind (("M-x" . helm-M-x)
+	:bind (("M-x" . helm-M-x) ; M-x Fuzzy Replacement
 		   ("C-x r b" . helm-filtered-bookmarks)
-		   ("C-x C-f" . helm-find-files)
-		   ("M-l" . helm-list-buffers))
-	:config (helm-mode 1))
+		   ("C-x C-f" . helm-find-files) ; Fuzzy Find File
+		   ("M-l" . helm-list-buffers) ; Fuzzy Buffer Search
+		   ("M-y" . helm-show-kill-ring) ; Fuzzy Undo
+		   ("C-x b" . helm-mini) ; Fuzzy Buffer & Recent
+		   ("C-c m" . helm-semantic-or-imenu) ; Fuzzy Function Search
+		   ("C-c f" . helm-find) ; Fuzzy Find File on FS
+		   ("C-s" . helm-occur) ; Fuzzy Search
+		   ("C-c h" . helm-eshell-history) ;History for Eshell
+		   )
+	:config 
+	(helm-mode 1)
+	(setq helm-buffers-fuzzy-matching t)
+	(setq helm-recentf-fuzzy-match t))
 #+END_SRC
 
 ** Magit
