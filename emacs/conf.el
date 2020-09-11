@@ -1,5 +1,4 @@
-(linum-mode 1)
-(custom-set-variables '(linum-format " %4i |"))
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (column-number-mode 1)
 (line-number-mode 1)
@@ -7,9 +6,9 @@
 (delete-selection-mode 1)
 
 (setq backup-directory-alist
-		      `((".*" . , "~/.backup/")))
-	(setq auto-save-file-name-transforms
-		      `((".*" , "~/.backup/" t)))
+    `((".*" . , "~/.backup/")))
+(setq auto-save-file-name-transforms
+    `((".*" , "~/.backup/" t)))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -27,16 +26,9 @@
 (global-set-key (kbd "M-o") 'occur)
 (global-set-key (kbd "C-S-o") 'open-line)
 
-(use-package transient
-      :ensure t)
-
-(use-package phpactor
-      :ensure t)
-
-(use-package company-phpactor
-      :ensure t)
-
 (setq-default c-basic-offset 4)
+
+(setq haskell-font-lock-symbols t)
 
 (use-package php-mode
       :ensure t
@@ -67,7 +59,58 @@
        (setq org-todo-keywords '((sequence "TODO" "ONGOING" "BLOCKED" "DONE")))
        (setq org-src-fontify-natively t)
        (setq org-src-tab-acts-natively t)
-       (setq org-agenda-files (list "~/orgs/agenda/agenda.org"))))
+       (setq org-src-preserve-indentation t)
+       (setq org-agenda-files (list "~/orgs/agenda/")
+       (setq org-agenda-custom-commands
+	     '(("c" "Simple agenda view"
+		    ((agenda "")
+			 (alltodo ""))))))))
+
+(use-package phpunit
+  :ensure t)
+
+(use-package lsp-mode
+   :ensure t
+   :config
+   (setq lsp-prefer-flymake nil)
+   :hook 
+   (php-mode . lsp)
+   :commands lsp)
+
+(use-package lsp-ui
+ :ensure t
+ :requires lsp-mode flycheck
+ :config
+ (setq lsp-ui-doc-enable t
+       lsp-ui-doc-use-childframe t
+	   lsp-ui-doc-position 'top
+	   lsp-ui-doc-include-signature t
+	   lsp-ui-sideline-enable nil
+	   lsp-ui-flycheck-enable t
+	   lsp-ui-flycheck-list-position 'right
+	   lsp-ui-flycheck-live-reporting t
+	   lsp-ui-peek-enable t
+	   lsp-ui-peek-list-width 60
+	   lsp-ui-peek-peek-height 25)
+ :hook (lsp-mode . lsp-ui-mode))
+
+(use-package company-lsp
+ :ensure t
+ :commands company-lsp)
+
+(use-package dashboard
+  :ensure t
+      :config
+      (dashboard-setup-startup-hook))
+
+(use-package transient
+	:ensure t)
+
+(use-package phpactor
+      :ensure t)
+
+(use-package company-phpactor
+      :ensure t)
 
 (use-package sudo-edit
       :ensure t
