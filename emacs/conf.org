@@ -6,7 +6,6 @@ Karl:  https://gitlab.com/karl.win/emacsos/-/blob/master/config.org#exwm
 Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 
 * Tweaks
-
 ** Linum Mode
 
 #+BEGIN_SRC emacs-lisp
@@ -67,10 +66,7 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
   (global-set-key (kbd "C-S-o") 'open-line)
 #+END_SRC
 
-* Functions
-  
 * Major Modes
-
 ** C Mode
 
 #+BEGIN_SRC emacs-lisp
@@ -112,7 +108,7 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 #+END_SRC
 
 ** YAML Mode
-
+   
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
 	:ensure t
@@ -121,7 +117,6 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 #+END_SRC
 
 ** Org Mode
-
 #+BEGIN_SRC emacs-lisp
   (use-package org-mode
 	:bind
@@ -141,7 +136,6 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 #+END_SRC
 
 * Packages
-
 ** PHPUnit
 
 #+BEGIN_SRC emacs-lisp
@@ -154,16 +148,44 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
 Requires a PHP language server. Install with:
 $ sudo npm i -g intelephense
 
+Requires an HTML language server. Install with:
+$ sudo npm i -g vscode-html-languageserver-bin
+
+Requires a TypeScript/JavaScript language server. Install with:
+$ sudo npm i -g typescript-language-server
+$ sudo npm i -g typescript
+
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
    :ensure t
    :config
    (setq lsp-prefer-flymake nil)
    :hook 
+   ((lsp-mode . lsp-headerline-breadcrumb-mode)
    (php-mode . lsp)
+   (js2-mode . lsp)
+   (web-mode . lsp)
+   (sql-mode . lsp)
+   (shell-script-mode . lsp))
    :commands lsp)
 #+END_SRC
 
+** DAP-Mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package dap-mode
+    :ensure t
+	:config 
+	(setq dap-auto-configure-features '(sessions locals controls tooltip)
+	      dap-firefox-debug-program "~/.emacs.d/.extension/vscode/firefox-devtools.vscode-firefox-debug/extension/dist/adapter.bundle.js")
+	(require 'dap-php)
+	(require 'dap-gdb-lldb)
+	(require 'dap-go)
+	(require 'dap-firefox)
+	:hook
+	(prog-mode . dap-mode))
+#+END_SRC
+ 
 ** LSP-UI
 
 #+BEGIN_SRC emacs-lisp
@@ -222,7 +244,6 @@ $ sudo npm i -g intelephense
   (use-package company-phpactor
 	:ensure t)
 #+END_SRC
-
 
 ** Sudo Edit
    
