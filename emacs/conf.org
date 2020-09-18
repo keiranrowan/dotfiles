@@ -67,6 +67,12 @@ Ryan:  https://ryan.himmelwright.net/post/org-babel-setup/
   (global-set-key (kbd "C-S-o") 'open-line)
 #+END_SRC
 
+** PA Bypass
+
+#+BEGIN_SRC emacs-lisp
+(setq package-check-signatures nil)
+#+END_SRC
+
 * Functions
   
 * Major Modes
