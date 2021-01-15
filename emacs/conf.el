@@ -18,13 +18,28 @@
 
 (setq-default tab-width 4)
 
-(global-set-key (kbd "M-p") 'backward-paragraph)
-(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-a") 'backward-paragraph)
+(global-set-key (kbd "M-e") 'forward-paragraph)
 (global-set-key (kbd "C-=") 'scroll-up-line)
 (global-set-key (kbd "M-=") 'scroll-down-line)
 (global-set-key (kbd "M-\\") 'goto-line)
 (global-set-key (kbd "M-o") 'occur)
 (global-set-key (kbd "C-S-o") 'open-line)
+
+(global-set-key (kbd "C-c t") 'eshell)
+(setenv "PATH"
+    (concat
+	 "/usr/local/bin:/usr/local/sbin:"
+	 (getenv "PATH")))
+(use-package eshell
+  :init
+  (setq
+        eshell-scroll-to-bottom-on-input 'all
+		eshell-error-if-no-glob t
+		eshell-hist-ignoredups t
+		eshell-save-history-on-exit t
+		eshell-prefer-lisp-functions nil
+		eshell-destory-buffer-when-process-dies t))
 
 (setq-default c-basic-offset 4)
 
@@ -74,8 +89,25 @@
    :config
    (setq lsp-prefer-flymake nil)
    :hook 
+   ((lsp-mode . lsp-headerline-breadcrumb-mode)
    (php-mode . lsp)
+   (js2-mode . lsp)
+   (web-mode . lsp)
+   (sql-mode . lsp)
+   (shell-script-mode . lsp))
    :commands lsp)
+
+(use-package dap-mode
+    :ensure t
+	:config 
+	(setq dap-auto-configure-features '(sessions locals controls tooltip)
+	      dap-firefox-debug-program "~/.emacs.d/.extension/vscode/firefox-devtools.vscode-firefox-debug/extension/dist/adapter.bundle.js")
+	(require 'dap-php)
+	(require 'dap-gdb-lldb)
+	(require 'dap-go)
+	(require 'dap-firefox)
+	:hook
+	(prog-mode . dap-mode))
 
 (use-package lsp-ui
  :ensure t
@@ -188,4 +220,9 @@
       (setq helm-recentf-fuzzy-match t))
 
 (use-package magit
-      :ensure t)
+      :ensure t
+      :bind ("C-c g" . magit-status))
+
+(use-package avy
+  :ensure t
+  :bind (("M-s" . avy-goto-word-1)))
