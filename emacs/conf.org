@@ -540,10 +540,11 @@ $ sudo npm i -g typescript
   :ensure t
   :config (yas-global-mode 1))
 
+(setq yas-snippet-dirs (append yas-snippet-dirs '("~/dotfiles/emacs/snippets")))
+
 (use-package yasnippet-snippets
   :ensure t)
 #+END_SRC
-
 
 
 * Functions

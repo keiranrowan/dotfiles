@@ -1,0 +1,32 @@
+# -*- mode: snippet -*-
+# name: gsrcode
+# key: gsrcode
+# group: definitions
+# --
+
+public function get${1:$(upcase-initials yas-text)}() {
+	   return \$this->$1;
+}
+
+public function set${1:$(upcase-initials yas-text)}(\$val, bool \$commit = false) {
+	   \$this->$1 = \$val;
+
+	   if (\$commit && \$this->hasDB()) {
+	   	  \$sql = 'EXEC [$2].[_public].[set${1:$(upcase-initials yas-text)}]
+				  @requestedBy=:requestedBy
+				 ,@usedBy=:usedBy
+				 ,@referenceCode=:refCode
+				 ,@${1:$(downcase yas-text)}=:${1:$(downcase yas-text)}';
+           \$query = \$this->db->getConnection()->prepare(\$sql);
+		   \$query->execute([
+				':requestedBy' => $this->getRequestedBy(),
+				':usedBy' => $this->getUsedBy(),
+				':referenceCode' => $this->getReferenceCode(),
+				':${1:$(downcase yas-text)}' => $this->get${1:$(upcase-initials yas-text)}
+		   ]);
+		   \$this->load(\$query->fetch());
+	   }
+
+	   return \$this;
+}
+
