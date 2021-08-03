@@ -1,4 +1,11 @@
-; language server protocol core package
+;;; Package --- lsp
+
+;;; Commentary:
+;;; Configuration for the Language Server Protocol
+
+;;; Code:
+
+										;language server protocol core package
 (use-package lsp-mode
 	     :straight t
 	     :custom
@@ -17,29 +24,29 @@
 	     (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
 	     :commands lsp)
 
-; language server protocol user interface
+										; language server protocol user interface
 (use-package lsp-ui
 	     :straight t
 	     :commands lsp-ui-mode)
 
-; language server protocol helm integration
+										; language server protocol helm integration
 (use-package helm-lsp
 	     :straight t
 	     :commands helm-lsp-workspace-symbol)
 
-; flycheck for error reporting
+										; flycheck for error reporting
 (use-package flycheck
 	     :straight t
 	     :init
 	     (global-flycheck-mode))
 
-; mssql lsp extension
+										; mssql lsp extension
 (use-package lsp-mode
 	     :straight t
 	     :hook (sql-mode . lsp))
 
-; debug adapter protocol
-;; TODO: Expand this
+										; debug adapter protocol
+										; TODO: Expand this
 (use-package dap-mode
 	     :straight t
 	     :bind

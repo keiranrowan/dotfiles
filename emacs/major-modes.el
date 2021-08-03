@@ -1,16 +1,21 @@
-;; Programming Languages
+;;; Package --- major-modes
 
-; major mode for php 
+;;; Commentary:
+;;; major-modes.el provides support for multiple major modes
+
+;;; Code:
+
+										; major mode for php
 (use-package php-mode
 	     :straight t
 	     :mode "\\.hs\\'")
 
-; major mode for golang
+										; major mode for golang
 (use-package go-mode
 	     :straight t
 	     :mode "\\.go\\'")
 
-; major mode for html, css, some js, and templates
+										; major mode for html, css, some js, and templates
 (use-package web-mode
 	     :straight t
 	     :config
@@ -25,12 +30,12 @@
 	      "\\.js.twig\\'"
 	      "\\.tmpl\\'"))
 
-; major mode for javascript and typescript
+										; major mode for javascript and typescript
 (use-package js2-mode
 	     :straight t
 	     :mode "\\.js\\'")
 	     
-; major mode for python 
+										; major mode for python 
 (use-package python-mode
 	     :straight t
 	     :config
@@ -38,15 +43,14 @@
 	     :mode "\\.py\\'"
 	     :interpreter "python")
 
-; major mode for haskell
+										; major mode for haskell
 (use-package haskell-mode
 	     :straight t
 	     :mode "\\.hs\\'"
 	     :config
 	     (setq haskell-font-lock-symbols t))
 
-;; org-mode
-
+										; org-mode
 (use-package org-mode
 	     :bind
 	     (("C-c l" . org-store-link)
@@ -63,18 +67,17 @@
 			     ((agenda "")
 			      (alltodo ""))))))))
 
-;; Markup Languages
-
-; major mode for json
+										; major mode for json
 (use-package json-mode
 	     :straight t
 	     :mode "\\.json\\'")
 
-; major mode for yaml
+										; major mode for yaml
 (use-package yaml-mode
 	     :straight t
 	     :mode "\\.yaml\\'")
 
+										; major mode for markdown
 (use-package markdown-mode
 	     :mode "\\.md\\'")
 
