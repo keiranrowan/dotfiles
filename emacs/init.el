@@ -12,6 +12,7 @@
 
 ; Load modules
 (load "package")
+(load "font")
 (load "tweaks")
 (load "theme")
 (load "major-modes")
@@ -21,6 +22,7 @@
 (load "version-control")
 (load "movement")
 (load "snippet")
+(load "tex")
 (load "misc")
 
 (provide 'init)

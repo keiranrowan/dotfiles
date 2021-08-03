@@ -1,4 +1,11 @@
-; Company auto completion
+;;; Package --- company
+
+;;; Commentary:
+;;; This package provides autocompletion features through company
+
+;;; Code:
+
+										; Company auto completion
 (use-package company
 	     :straight t
 	     :config
@@ -11,17 +18,19 @@
 	     :hook
 	     (prog-mode . company-mode))
 
+										; Company LSP completion
 (use-package company-lsp
 	     :straight t
 	     :config
 	     (push 'company-lsp company-backends))
 
+										; Company box
 (use-package company-box
 	     :straight t
 	     :hook
 	     (company-mode . company-box-mode))
 
-					; Helm buffer completion
+										; Helm buffer completion
 (use-package helm
 	     :straight t
 	     :bind (("M-x" . helm-M-x)

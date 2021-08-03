@@ -1,4 +1,11 @@
-; Emacs landing page
+;;; Package --- dashboard
+
+;;; Commentary:
+;;; Landing page for Emacs
+
+;;; Code:
+
+										; Emacs landing page
 (use-package dashboard
 	     :straight t
 	     :config
