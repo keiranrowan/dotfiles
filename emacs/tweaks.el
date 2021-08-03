@@ -1,7 +1,7 @@
 ; Line numbers in prog-mode
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-; Delete selected text on action
+;Delete selected text on action
 (delete-selection-mode 1)
 
 ; Consolidate backup files

@@ -9,5 +9,11 @@
 	     :straight t
 	     :hook (prog-mode . rainbow-delimiters-mode))
 
+; Code Folding
+(use-package origami
+  :straight t
+  :bind ("C-c o" . origami-toggle-node))
+  
+
 (provide 'misc)
 ;;; misc.el ends here
