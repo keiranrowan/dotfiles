@@ -21,7 +21,7 @@
 (use-package doom-themes
 	     :straight t
 	     :config
-	     (load-theme 'doom-flatwhite t))
+	     (load-theme 'doom-one t))
 
 (provide 'theme)
 ;;; theme.el ends here

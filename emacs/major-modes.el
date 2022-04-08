@@ -8,7 +8,7 @@
 										; major mode for php
 (use-package php-mode
 	     :straight t
-	     :mode "\\.hs\\'")
+	     :mode "\\.php\\'")
 
 										; major mode for golang
 (use-package go-mode
@@ -30,10 +30,18 @@
 	      "\\.js.twig\\'"
 	      "\\.tmpl\\'"))
 
-										; major mode for javascript and typescript
+
+										; major mode for javascript
 (use-package js2-mode
 	     :straight t
-	     :mode "\\.js\\'")
+	     :mode ("\\.js\\'"
+				"\\.jsx\\'")
+
+										; major mode for typescript
+(use-package typescript-mode
+  :straight t
+  :mode ("\\.ts\\'"
+		 "\\.tsx\\'"))
 	     
 										; major mode for python 
 (use-package python-mode
